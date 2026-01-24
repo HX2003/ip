@@ -25,8 +25,44 @@ public class Quark {
 
             if (line.equals("list")) {
                 for (int i = 0; i < tasks.size(); i++) {
-                  System.out.println((i + 1) + ". " + tasks.get(i).getDescription());
+                  System.out.println((i + 1) + ". " + tasks.get(i).getDescriptionWithStatusIcon());
                 }
+                continue;
+            }
+
+            if (line.startsWith("mark ") || line.startsWith("unmark ")) {
+                boolean isMark = line.startsWith("mark ");
+                String[] words = line.split(" ");
+
+                if (words.length != 2) {
+                    continue;
+                }
+
+                try {
+                    int id = Integer.parseInt(words[1]) - 1;
+
+                    if (id >= 0 && id < tasks.size()) {
+                        tasks.get(id).setDone(isMark);
+                        String reply;
+                        if (isMark) {
+                            reply = SEPARATOR + System.lineSeparator()
+                                    + "▶ Nice! I've marked this task as done:" + System.lineSeparator()
+                                    + tasks.get(id).getDescriptionWithStatusIcon() + System.lineSeparator()
+                                    + SEPARATOR;
+
+                        } else {
+                            reply = SEPARATOR + System.lineSeparator()
+                                    + "▶ OK, I've marked this task as not done yet:" + System.lineSeparator()
+                                    + tasks.get(id).getDescriptionWithStatusIcon() + System.lineSeparator()
+                                    + SEPARATOR;
+
+                        }
+                        System.out.println(reply);
+                    }
+                } catch (NumberFormatException e) {
+                    // Exception
+                }
+
                 continue;
             }
 
