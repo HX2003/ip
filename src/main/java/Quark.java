@@ -11,8 +11,8 @@ public class Quark {
         Scanner in = new Scanner(System.in);
 
         String logo = "Hello! I'm Quark" + System.lineSeparator()
-        + "What can I do for you?" + System.lineSeparator()
-        + SEPARATOR;
+                + "What can I do for you?" + System.lineSeparator()
+                + SEPARATOR;
 
         System.out.println(logo);
 
@@ -25,7 +25,7 @@ public class Quark {
 
             if (line.equals("list")) {
                 for (int i = 0; i < tasks.size(); i++) {
-                  System.out.println((i + 1) + ". " + tasks.get(i).getDescriptionWithStatusIcon());
+                    System.out.println((i + 1) + ". " + tasks.get(i).getDescriptionWithStatusIcon());
                 }
                 continue;
             }
@@ -69,15 +69,15 @@ public class Quark {
             tasks.add(new Task(line));
 
             String reply = SEPARATOR + System.lineSeparator()
-            + "▶ added: " + line + System.lineSeparator()
-            + SEPARATOR;
-            
+                    + "▶ added: " + line + System.lineSeparator()
+                    + SEPARATOR;
+
             System.out.println(reply);
         }
 
         String byeReply = SEPARATOR + System.lineSeparator()
-        + "▶ Bye. Hope to see you again soon!" + System.lineSeparator()
-        + SEPARATOR;
+                + "▶ Bye. Hope to see you again soon!" + System.lineSeparator()
+                + SEPARATOR;
 
         System.out.println(byeReply);
     }
