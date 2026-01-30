@@ -41,12 +41,16 @@ public class Quark {
             case "deadline" -> {
                 int indexOfBy = arguments.indexOf(PREFIX_BY);
 
-                if (indexOfBy == -1) return;
+                if (indexOfBy == -1) {
+                    return;
+                }
 
                 String description = arguments.substring(0, indexOfBy);
                 String endDate = arguments.substring(indexOfBy + PREFIX_BY.length());
 
-                if (description.isBlank() || endDate.isBlank()) return;
+                if (description.isBlank() || endDate.isBlank()) {
+                    return;
+                }
 
                 Deadline task = new Deadline(description, endDate);
                 tasks.add(task);
@@ -55,13 +59,17 @@ public class Quark {
                 int indexOfFrom = arguments.indexOf(PREFIX_FROM);
                 int indexOfTo = arguments.indexOf(PREFIX_TO);
 
-                if (indexOfFrom == -1 || indexOfTo == -1 || indexOfFrom >= indexOfTo) return;
+                if (indexOfFrom == -1 || indexOfTo == -1 || indexOfFrom >= indexOfTo) {
+                    return;
+                }
 
                 String description = arguments.substring(0, indexOfFrom);
                 String startDate = arguments.substring(indexOfFrom + PREFIX_FROM.length(), indexOfTo);
                 String endDate = arguments.substring(indexOfTo + PREFIX_TO.length());
 
-                if (description.isBlank() || startDate.isBlank() || endDate.isBlank()) return;
+                if (description.isBlank() || startDate.isBlank() || endDate.isBlank()) {
+                    return;
+                }
 
                 Event task = new Event(description, startDate, endDate);
                 tasks.add(task);
@@ -80,7 +88,9 @@ public class Quark {
         try {
             int id = Integer.parseInt(arguments) - 1;
 
-            if (id < 0 || id >= tasks.size()) return;
+            if (id < 0 || id >= tasks.size()) {
+                return;
+            }
 
             tasks.get(id).setDone(isMark);
             String reply;
@@ -105,7 +115,9 @@ public class Quark {
         String line = in.trim();
         String[] split = line.split(" ", 2); // Split into command, and arguments
 
-        if (split.length < 1) return false;
+        if (split.length < 1) {
+            return false;
+        }
 
         String command = split[0];
 
@@ -117,7 +129,9 @@ public class Quark {
         }
 
         // Handle input commands with arguments
-        if (split.length < 2) return false;
+        if (split.length < 2) {
+            return false;
+        }
 
         if (command.equals("todo") || command.equals("deadline") || command.equals("event")) {
             executeTaskCommand(command, split[1]);
