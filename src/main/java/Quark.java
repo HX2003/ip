@@ -55,6 +55,7 @@ public class Quark {
         System.out.println(SEPARATOR + System.lineSeparator()
                 + "▶ Added this task: " + System.lineSeparator()
                 + tasks.get(tasks.size() - 1) + System.lineSeparator()
+                + "You now have " + tasks.size() + " tasks in total." + System.lineSeparator()
                 + SEPARATOR);
     }
 
