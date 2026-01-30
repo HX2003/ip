@@ -10,7 +10,7 @@ public class Quark {
     private static final String PREFIX_TO = " /to ";
     private static final String PREFIX_FROM = " /from ";
 
-    public static void executeListCommand(String command)  {
+    public static void executeListCommand()  {
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + ". " + tasks.get(i));
         }
@@ -97,7 +97,7 @@ public class Quark {
         if (command.equals("bye")) {
             return true;
         } else if (command.equals("list")) {
-            executeListCommand(command);
+            executeListCommand();
         }
 
         // Handle input commands with arguments
