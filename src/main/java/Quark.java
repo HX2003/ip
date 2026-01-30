@@ -122,7 +122,9 @@ public class Quark {
         System.out.println(logo);
 
         while (true) {
-            if (parser(in.nextLine())) break;
+            if (in.hasNextLine()) {
+                if (parser(in.nextLine())) break;
+            }
         }
 
         String byeReply = SEPARATOR + System.lineSeparator()
