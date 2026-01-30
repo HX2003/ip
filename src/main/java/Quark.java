@@ -10,6 +10,22 @@ public class Quark {
     private static final String PREFIX_TO = " /to ";
     private static final String PREFIX_FROM = " /from ";
 
+    private static void printHelloMessage() {
+        String helloMessage = "Hello! I'm Quark" + System.lineSeparator()
+                + "What can I do for you?" + System.lineSeparator()
+                + SEPARATOR;
+
+        System.out.println(helloMessage);
+    }
+
+    private static void printByeMessage() {
+        String byeMessage = SEPARATOR + System.lineSeparator()
+                + "Bye. Hope to see you again soon!" + System.lineSeparator()
+                + SEPARATOR;
+
+        System.out.println(byeMessage);
+    }
+
     public static void executeListCommand()  {
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + ". " + tasks.get(i));
@@ -115,11 +131,7 @@ public class Quark {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
-        String logo = "Hello! I'm Quark" + System.lineSeparator()
-                + "What can I do for you?" + System.lineSeparator()
-                + SEPARATOR;
-
-        System.out.println(logo);
+        printHelloMessage();
 
         while (true) {
             if (in.hasNextLine()) {
@@ -127,10 +139,6 @@ public class Quark {
             }
         }
 
-        String byeReply = SEPARATOR + System.lineSeparator()
-                + "Bye. Hope to see you again soon!" + System.lineSeparator()
-                + SEPARATOR;
-
-        System.out.println(byeReply);
+        printByeMessage();
     }
 }
