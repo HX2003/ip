@@ -53,7 +53,7 @@ public class Quark {
         }
 
         System.out.println(SEPARATOR + System.lineSeparator()
-                + "▶ Added this task: " + System.lineSeparator()
+                + "Added this task: " + System.lineSeparator()
                 + tasks.get(tasks.size() - 1) + System.lineSeparator()
                 + "You now have " + tasks.size() + " tasks in total." + System.lineSeparator()
                 + SEPARATOR);
@@ -70,12 +70,12 @@ public class Quark {
             String reply;
             if (isMark) {
                 reply = SEPARATOR + System.lineSeparator()
-                        + "▶ Nice! I've marked this task as done:" + System.lineSeparator()
+                        + "Nice! I've marked this task as done:" + System.lineSeparator()
                         + tasks.get(id) + System.lineSeparator()
                         + SEPARATOR;
             } else {
                 reply = SEPARATOR + System.lineSeparator()
-                        + "▶ OK, I've marked this task as not done yet:" + System.lineSeparator()
+                        + "OK, I've marked this task as not done yet:" + System.lineSeparator()
                         + tasks.get(id) + System.lineSeparator()
                         + SEPARATOR;
             }
@@ -126,7 +126,7 @@ public class Quark {
         }
 
         String byeReply = SEPARATOR + System.lineSeparator()
-                + "▶ Bye. Hope to see you again soon!" + System.lineSeparator()
+                + "Bye. Hope to see you again soon!" + System.lineSeparator()
                 + SEPARATOR;
 
         System.out.println(byeReply);
