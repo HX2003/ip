@@ -8,7 +8,7 @@ You now have 1 tasks in total.
 ____________________________________________________________
 ____________________________________________________________
 Added this task:
-[T][ ] return book (by: Sunday)
+[D][ ] return book (by: Sunday)
 You now have 2 tasks in total.
 ____________________________________________________________
 ____________________________________________________________
@@ -17,21 +17,21 @@ Added this task:
 You now have 3 tasks in total.
 ____________________________________________________________
 1. [T][ ] Eat lunch
-2. [T][ ] return book (by: Sunday)
+2. [D][ ] return book (by: Sunday)
 3. [E][ ] project meeting (from: Mon 2pm, to: Mon 4pm)
 ____________________________________________________________
 Nice! I've marked this task as done:
-[T][X] return book (by: Sunday)
+[D][X] return book (by: Sunday)
 ____________________________________________________________
 1. [T][ ] Eat lunch
-2. [T][X] return book (by: Sunday)
+2. [D][X] return book (by: Sunday)
 3. [E][ ] project meeting (from: Mon 2pm, to: Mon 4pm)
 ____________________________________________________________
 OK, I've marked this task as not done yet:
-[T][ ] return book (by: Sunday)
+[D][ ] return book (by: Sunday)
 ____________________________________________________________
 1. [T][ ] Eat lunch
-2. [T][ ] return book (by: Sunday)
+2. [D][ ] return book (by: Sunday)
 3. [E][ ] project meeting (from: Mon 2pm, to: Mon 4pm)
 ____________________________________________________________
 Bye. Hope to see you again soon!

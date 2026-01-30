@@ -12,6 +12,6 @@ public class Deadline extends Task {
             throw new IllegalArgumentException();
         }
 
-        return "[T]" + getStatusString() + " " + description + " (by: " + endDate + ")";
+        return "[D]" + getStatusString() + " " + description + " (by: " + endDate + ")";
     }
 }
