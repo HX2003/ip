@@ -122,28 +122,21 @@ public class Quark {
         String line = in.trim();
         String[] split = line.split(" ", 2); // Split into command, and arguments
 
-        if (split.length < 1) {
-            return false;
-        }
-
         String command = split[0];
 
-        // Handle input commands without arguments first
-        if (command.equals("bye")) {
-            return true;
-        } else if (command.equals("list")) {
-            executeListCommand();
-        }
-
-        // Handle input commands with arguments
-        if (split.length < 2) {
-            return false;
-        }
-
-        if (command.equals("todo") || command.equals("deadline") || command.equals("event")) {
-            executeTaskCommand(command, split[1]);
-        } else if (command.equals("mark") || command.equals("unmark")) {
-            executeMarkUnmarkCommand(command, split[1]);
+        switch (command) {
+            case "" -> {
+                System.out.println("Command not recognized, did you mean to a enter command?");
+            }
+            case "bye" -> {
+                return true;
+            }
+            case "list" -> executeListCommand();
+            case "todo", "deadline", "event" -> executeTaskCommand(command, split[1]);
+            case "mark", "unmark" -> executeMarkUnmarkCommand(command, split[1]);
+            default -> {
+                System.out.println("Command \"" + command + "\" not recognized");
+            }
         }
 
         return false;
