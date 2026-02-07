@@ -32,7 +32,15 @@ public class Quark {
         System.out.println(byeMessage);
     }
 
-    public static void executeListCommand()  {
+    public static void handleEmptyCommand() {
+        printReply("Command not recognized, did you mean to a enter command?");
+    }
+
+    public static void handleUnrecognizableCommand(String command) {
+        printReply("Command \"" + command + "\" not recognized");
+    }
+
+    public static void handleListCommand()  {
         System.out.println(SEPARATOR);
         if (tasks.isEmpty()) {
             System.out.println("You have no tasks");
@@ -45,7 +53,7 @@ public class Quark {
         System.out.println(SEPARATOR);
     }
 
-    public static void executeTaskCommand(String command, String arguments) {
+    public static void handleTaskCommand(String command, String arguments) {
         switch (command) {
             case "todo" -> {
                 ToDo task = new ToDo(arguments);
@@ -96,7 +104,7 @@ public class Quark {
                 + SEPARATOR);
     }
 
-    public static void executeMarkUnmarkCommand(String command, String arguments)  {
+    public static void handleMarkUnmarkCommand(String command, String arguments)  {
         boolean isMark = command.equals("mark");
         try {
             int id = Integer.parseInt(arguments) - 1;
@@ -131,18 +139,14 @@ public class Quark {
         String command = split[0];
 
         switch (command) {
-            case "" -> {
-                printReply("Command not recognized, did you mean to a enter command?");
-            }
+            case "" -> handleEmptyCommand();
             case "bye" -> {
                 return true;
             }
-            case "list" -> executeListCommand();
-            case "todo", "deadline", "event" -> executeTaskCommand(command, split[1]);
-            case "mark", "unmark" -> executeMarkUnmarkCommand(command, split[1]);
-            default -> {
-                printReply("Command \"" + command + "\" not recognized");
-            }
+            case "list" -> handleListCommand();
+            case "todo", "deadline", "event" -> handleTaskCommand(command, split[1]);
+            case "mark", "unmark" -> handleMarkUnmarkCommand(command, split[1]);
+            default -> handleUnrecognizableCommand(command);
         }
 
         return false;
