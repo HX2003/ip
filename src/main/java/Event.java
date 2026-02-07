@@ -10,10 +10,6 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        if (startDate.isBlank() && endDate.isBlank()) {
-            throw new IllegalArgumentException();
-        }
-
         return "[E]" + getStatusString() + " " + description + " (from: " + startDate + ", to: " + endDate + ")";
     }
 }
