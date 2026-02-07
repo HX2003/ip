@@ -47,7 +47,7 @@ public class Quark {
         printReply(reply.toString());
     }
 
-    public static void handleTaskCommand(String command, String arguments) {
+    public static void handleTaskCommand(String command, String arguments) throws QuarkCommandException {
         switch (command) {
             case "todo" -> {
                 ToDo task = new ToDo(arguments);
@@ -57,14 +57,14 @@ public class Quark {
                 int indexOfBy = arguments.indexOf(PREFIX_BY);
 
                 if (indexOfBy == -1) {
-                    return;
+                    throw new QuarkCommandException("Failed to parse provided deadline");
                 }
 
                 String description = arguments.substring(0, indexOfBy);
                 String endDate = arguments.substring(indexOfBy + PREFIX_BY.length());
 
                 if (description.isBlank() || endDate.isBlank()) {
-                    return;
+                    throw new QuarkCommandException("Failed to parse provided deadline");
                 }
 
                 Deadline task = new Deadline(description, endDate);
@@ -75,7 +75,7 @@ public class Quark {
                 int indexOfTo = arguments.indexOf(PREFIX_TO);
 
                 if (indexOfFrom == -1 || indexOfTo == -1 || indexOfFrom >= indexOfTo) {
-                    return;
+                    throw new QuarkCommandException("Failed to parse provided event");
                 }
 
                 String description = arguments.substring(0, indexOfFrom);
@@ -83,7 +83,7 @@ public class Quark {
                 String endDate = arguments.substring(indexOfTo + PREFIX_TO.length());
 
                 if (description.isBlank() || startDate.isBlank() || endDate.isBlank()) {
-                    return;
+                    throw new QuarkCommandException("Failed to parse provided event");
                 }
 
                 Event task = new Event(description, startDate, endDate);
@@ -96,25 +96,26 @@ public class Quark {
                 + "You now have " + tasks.size() + " tasks in total.");
     }
 
-    public static void handleMarkUnmarkCommand(String command, String arguments)  {
+    public static void handleMarkUnmarkCommand(String command, String arguments) throws QuarkCommandException  {
         boolean isMark = command.equals("mark");
+        int id;
         try {
-            int id = Integer.parseInt(arguments) - 1;
-
-            if (id < 0 || id >= tasks.size()) {
-                return;
-            }
-
-            tasks.get(id).setDone(isMark);
-            if (isMark) {
-                printReply("Nice! I've marked this task as done:" + System.lineSeparator()
-                        + tasks.get(id));
-            } else {
-                printReply("OK, I've marked this task as not done yet:" + System.lineSeparator()
-                        + tasks.get(id));
-            }
+            id = Integer.parseInt(arguments) - 1;
         } catch (NumberFormatException e) {
-            // Exception
+            throw new QuarkCommandException("Failed to parse task number");
+        }
+
+        if (id < 0 || id >= tasks.size()) {
+            throw new QuarkCommandException("Task number out of range");
+        }
+
+        tasks.get(id).setDone(isMark);
+        if (isMark) {
+            printReply("Nice! I've marked this task as done:" + System.lineSeparator()
+                    + tasks.get(id));
+        } else {
+            printReply("OK, I've marked this task as not done yet:" + System.lineSeparator()
+                    + tasks.get(id));
         }
     }
 
@@ -123,16 +124,25 @@ public class Quark {
         String[] split = line.split(" ", 2); // Split into command, and arguments
 
         String command = split[0];
+        String argument = "";
 
-        switch (command) {
+        if (split.length > 1) {
+            argument = split[1];
+        }
+
+        try {
+            switch (command) {
             case "" -> handleEmptyCommand();
             case "bye" -> {
                 return true;
             }
             case "list" -> handleListCommand();
-            case "todo", "deadline", "event" -> handleTaskCommand(command, split[1]);
-            case "mark", "unmark" -> handleMarkUnmarkCommand(command, split[1]);
+            case "todo", "deadline", "event" -> handleTaskCommand(command, argument);
+            case "mark", "unmark" -> handleMarkUnmarkCommand(command, argument);
             default -> handleUnrecognizableCommand(command);
+            }
+        } catch (QuarkCommandException e) {
+            printReply("Unable to decipher command arguments: " + e.getMessage());
         }
 
         return false;
