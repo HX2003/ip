@@ -10,6 +10,12 @@ public class Quark {
     private static final String PREFIX_TO = " /to ";
     private static final String PREFIX_FROM = " /from ";
 
+    private static void printReply(String reply) {
+        System.out.println(SEPARATOR + System.lineSeparator()
+                + reply + System.lineSeparator()
+                + SEPARATOR);
+    }
+
     private static void printHelloMessage() {
         String helloMessage = "Hello! I'm Quark" + System.lineSeparator()
                 + "What can I do for you?" + System.lineSeparator()
@@ -126,7 +132,7 @@ public class Quark {
 
         switch (command) {
             case "" -> {
-                System.out.println("Command not recognized, did you mean to a enter command?");
+                printReply("Command not recognized, did you mean to a enter command?");
             }
             case "bye" -> {
                 return true;
@@ -135,7 +141,7 @@ public class Quark {
             case "todo", "deadline", "event" -> executeTaskCommand(command, split[1]);
             case "mark", "unmark" -> executeMarkUnmarkCommand(command, split[1]);
             default -> {
-                System.out.println("Command \"" + command + "\" not recognized");
+                printReply("Command \"" + command + "\" not recognized");
             }
         }
 
