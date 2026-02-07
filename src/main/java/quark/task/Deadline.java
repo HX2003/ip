@@ -1,3 +1,5 @@
+package quark.task;
+
 public class Deadline extends Task {
     private final String endDate;
 
