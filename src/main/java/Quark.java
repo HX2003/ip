@@ -27,9 +27,16 @@ public class Quark {
     }
 
     public static void executeListCommand()  {
+        System.out.println(SEPARATOR);
+        if (tasks.isEmpty()) {
+            System.out.println("You have no tasks");
+        } else {
+            System.out.println("Here are the tasks:");
+        }
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + ". " + tasks.get(i));
         }
+        System.out.println(SEPARATOR);
     }
 
     public static void executeTaskCommand(String command, String arguments) {
