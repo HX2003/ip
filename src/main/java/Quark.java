@@ -16,20 +16,13 @@ public class Quark {
                 + SEPARATOR);
     }
 
-    private static void printHelloMessage() {
-        String helloMessage = "Hello! I'm Quark" + System.lineSeparator()
-                + "What can I do for you?" + System.lineSeparator()
-                + SEPARATOR;
-
-        System.out.println(helloMessage);
+    private static void printHelloReply() {
+        printReply("Hello! I'm Quark" + System.lineSeparator()
+                + "What can I do for you?");
     }
 
-    private static void printByeMessage() {
-        String byeMessage = SEPARATOR + System.lineSeparator()
-                + "Bye. Hope to see you again soon!" + System.lineSeparator()
-                + SEPARATOR;
-
-        System.out.println(byeMessage);
+    private static void printByeReply() {
+        printReply("Bye. Hope to see you again soon!");
     }
 
     public static void handleEmptyCommand() {
@@ -41,16 +34,17 @@ public class Quark {
     }
 
     public static void handleListCommand()  {
-        System.out.println(SEPARATOR);
+        StringBuilder reply = new StringBuilder();
         if (tasks.isEmpty()) {
-            System.out.println("You have no tasks");
+            reply.append("You have no tasks");
         } else {
-            System.out.println("Here are the tasks:");
+            reply.append("Here are the tasks:");
         }
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ". " + tasks.get(i));
+            String line = System.lineSeparator() + (i + 1) + ". " + tasks.get(i);
+            reply.append(line);
         }
-        System.out.println(SEPARATOR);
+        printReply(reply.toString());
     }
 
     public static void handleTaskCommand(String command, String arguments) {
@@ -97,11 +91,9 @@ public class Quark {
             }
         }
 
-        System.out.println(SEPARATOR + System.lineSeparator()
-                + "Added this task:" + System.lineSeparator()
+        printReply("Added this task:" + System.lineSeparator()
                 + tasks.get(tasks.size() - 1) + System.lineSeparator()
-                + "You now have " + tasks.size() + " tasks in total." + System.lineSeparator()
-                + SEPARATOR);
+                + "You now have " + tasks.size() + " tasks in total.");
     }
 
     public static void handleMarkUnmarkCommand(String command, String arguments)  {
@@ -114,19 +106,13 @@ public class Quark {
             }
 
             tasks.get(id).setDone(isMark);
-            String reply;
             if (isMark) {
-                reply = SEPARATOR + System.lineSeparator()
-                        + "Nice! I've marked this task as done:" + System.lineSeparator()
-                        + tasks.get(id) + System.lineSeparator()
-                        + SEPARATOR;
+                printReply("Nice! I've marked this task as done:" + System.lineSeparator()
+                        + tasks.get(id));
             } else {
-                reply = SEPARATOR + System.lineSeparator()
-                        + "OK, I've marked this task as not done yet:" + System.lineSeparator()
-                        + tasks.get(id) + System.lineSeparator()
-                        + SEPARATOR;
+                printReply("OK, I've marked this task as not done yet:" + System.lineSeparator()
+                        + tasks.get(id));
             }
-            System.out.println(reply);
         } catch (NumberFormatException e) {
             // Exception
         }
@@ -155,7 +141,7 @@ public class Quark {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
-        printHelloMessage();
+        printHelloReply();
 
         while (true) {
             if (in.hasNextLine()) {
@@ -163,6 +149,6 @@ public class Quark {
             }
         }
 
-        printByeMessage();
+        printByeReply();
     }
 }
