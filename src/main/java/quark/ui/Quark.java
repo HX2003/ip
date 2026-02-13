@@ -33,6 +33,20 @@ public class Quark {
         printReply("Bye. Hope to see you again soon!");
     }
 
+    private static int parseTaskIndex(String arguments) throws QuarkCommandException {
+        int id;
+        try {
+            id = Integer.parseInt(arguments) - 1;
+        } catch (NumberFormatException e) {
+            throw new QuarkCommandException("Failed to parse task number");
+        }
+
+        if (id < 0 || id >= tasks.size()) {
+            throw new QuarkCommandException("Task number out of range");
+        }
+        return id;
+    }
+
     public static void handleEmptyCommand() {
         printReply("Command not recognized, did you mean to a enter command?");
     }
@@ -106,16 +120,7 @@ public class Quark {
 
     public static void handleMarkUnmarkCommand(String command, String arguments) throws QuarkCommandException  {
         boolean isMark = command.equals("mark");
-        int id;
-        try {
-            id = Integer.parseInt(arguments) - 1;
-        } catch (NumberFormatException e) {
-            throw new QuarkCommandException("Failed to parse task number");
-        }
-
-        if (id < 0 || id >= tasks.size()) {
-            throw new QuarkCommandException("Task number out of range");
-        }
+        int id = parseTaskIndex(arguments);
 
         tasks.get(id).setDone(isMark);
         if (isMark) {
@@ -125,6 +130,15 @@ public class Quark {
             printReply("OK, I've marked this task as not done yet:" + System.lineSeparator()
                     + tasks.get(id));
         }
+    }
+
+    public static void handleDeleteCommand(String ignoredCommand, String arguments) throws QuarkCommandException {
+        int id = parseTaskIndex(arguments);
+
+        Task task = tasks.remove(id);
+        printReply("Ok! I've removed this task:" + System.lineSeparator()
+                + task + System.lineSeparator()
+                + "You now have " + tasks.size() + " tasks in total.");
     }
 
     public static boolean parser(String in) {
@@ -147,6 +161,7 @@ public class Quark {
             case "list" -> handleListCommand();
             case "todo", "deadline", "event" -> handleTaskCommand(command, argument);
             case "mark", "unmark" -> handleMarkUnmarkCommand(command, argument);
+            case "delete" -> handleDeleteCommand(command, argument);
             default -> handleUnrecognizableCommand(command);
             }
         } catch (QuarkCommandException e) {
