@@ -9,4 +9,5 @@ unmark 2
 list
 mark 999
 uducsdncsoww
+delete 1
 bye
