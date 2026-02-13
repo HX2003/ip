@@ -10,10 +10,6 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        if (endDate.isBlank()) {
-            throw new IllegalArgumentException();
-        }
-
         return "[D]" + getStatusString() + " " + description + " (by: " + endDate + ")";
     }
 }
