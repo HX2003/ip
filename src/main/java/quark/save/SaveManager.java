@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 
 public class SaveManager {
     private static final String[] FILE_SAVE_PATH = {"quark", "save.txt"};
@@ -50,9 +51,10 @@ public class SaveManager {
 
         // Try to write task data into a file,
         // it will automatically create a new file if it does not exist
-        try (BufferedWriter writer = Files.newBufferedWriter(filePath, java.nio.file.StandardOpenOption.CREATE)) {
+        try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
             for (Task task: state.getTasks()) {
                 writer.write(task.toSaveString());
+                writer.newLine();
             }
         } catch (IOException e) {
             printFailedToSaveReply(e.toString());
