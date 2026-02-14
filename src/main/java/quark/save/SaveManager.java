@@ -1,9 +1,14 @@
 package quark.save;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import quark.task.Task;
+
+import static quark.ui.Ui.printFailedToSaveReply;
+
+import java.io.BufferedWriter;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Scanner;
+import java.nio.file.Files;
 
 public class SaveManager {
     private static final String[] FILE_SAVE_PATH = {"quark", "save.txt"};
@@ -23,26 +28,40 @@ public class SaveManager {
     }
 
     private void loadSave() {
-        try {
-            File file = new File(filePath.toUri());
-
-            System.out.println(file);
-            Scanner s = new Scanner(file);
-            while (s.hasNext()) {
-                System.out.println(s.nextLine());
+        try (BufferedReader reader = Files.newBufferedReader(filePath)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
             }
-
             isLoadedFromFile = true;
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             isLoadedFromFile = false;
             state = new SaveState();
+        }
+    }
+
+    public void save() {
+        // Create directory for the file if not exist
+        try {
+            Files.createDirectories(filePath.getParent());
+        } catch (IOException e) {
+            printFailedToSaveReply(e.toString());
+        }
+
+        // Try to write task data into a file,
+        // it will automatically create a new file if it does not exist
+        try (BufferedWriter writer = Files.newBufferedWriter(filePath, java.nio.file.StandardOpenOption.CREATE)) {
+            for (Task task: state.getTasks()) {
+                writer.write(task.toSaveString());
+            }
+        } catch (IOException e) {
+            printFailedToSaveReply(e.toString());
         }
     }
 
     public boolean isLoadedFromFile() {
         return isLoadedFromFile;
     }
-
 
     public Path getFilePath() {
         return filePath;

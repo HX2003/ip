@@ -23,6 +23,7 @@ public class Quark {
         Parser parser = new Parser(saveManager.getState());
         parser.loop();
 
+        saveManager.save();
         printByeReply();
     }
 }
