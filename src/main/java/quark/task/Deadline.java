@@ -12,4 +12,9 @@ public class Deadline extends Task {
     public String toString() {
         return "[D]" + getStatusString() + " " + description + " (by: " + endDate + ")";
     }
+
+    @Override
+    public String toSaveString() {
+        return "";
+    }
 }

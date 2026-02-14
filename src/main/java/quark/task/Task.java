@@ -1,6 +1,8 @@
 package quark.task;
 
-public class Task {
+import quark.save.Saveable;
+
+public abstract class Task implements Saveable {
     protected final String description;
     private boolean isDone;
 

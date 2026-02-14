@@ -14,4 +14,9 @@ public class Event extends Task {
     public String toString() {
         return "[E]" + getStatusString() + " " + description + " (from: " + startDate + ", to: " + endDate + ")";
     }
+
+    @Override
+    public String toSaveString() {
+        return "";
+    }
 }

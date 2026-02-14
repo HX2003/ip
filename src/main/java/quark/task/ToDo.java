@@ -9,4 +9,9 @@ public class ToDo extends Task {
     public String toString() {
         return "[T]" + getStatusString() + " " + description;
     }
+
+    @Override
+    public String toSaveString() {
+        return "";
+    }
 }
