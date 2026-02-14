@@ -5,8 +5,8 @@ import quark.task.Deadline;
 import quark.task.Event;
 import quark.task.ToDo;
 
-import static quark.ui.Quark.printReply;
 import static quark.ui.Quark.tasks;
+import static quark.ui.Ui.printReply;
 
 import java.util.Scanner;
 
