@@ -1,11 +1,11 @@
 package quark.parser;
 
 import quark.QuarkCommandException;
+import quark.save.SaveState;
 import quark.task.Deadline;
 import quark.task.Event;
 import quark.task.ToDo;
 
-import static quark.ui.Quark.tasks;
 import static quark.ui.Ui.printReply;
 
 import java.util.Scanner;
@@ -16,37 +16,39 @@ public class Parser {
     private static final String PREFIX_TO = " /to ";
     private static final String PREFIX_FROM = " /from ";
 
-    public Parser() {
+    private final SaveState saveState;
 
+    public Parser(SaveState saveState) {
+        this.saveState = saveState;
     }
 
-    private static void handleEmptyCommand() {
+    private void handleEmptyCommand() {
         printReply("Command not recognized, did you mean to a enter command?");
     }
 
-    private static void handleUnrecognizableCommand(String command) {
+    private void handleUnrecognizableCommand(String command) {
         printReply("Command \"" + command + "\" not recognized");
     }
 
-    private static void handleListCommand()  {
+    private void handleListCommand()  {
         StringBuilder reply = new StringBuilder();
-        if (tasks.isEmpty()) {
+        if (saveState.getTasks().isEmpty()) {
             reply.append("You have no tasks");
         } else {
             reply.append("Here are the tasks:");
         }
-        for (int i = 0; i < tasks.size(); i++) {
-            String line = System.lineSeparator() + (i + 1) + ". " + tasks.get(i);
+        for (int i = 0; i < saveState.getTasks().size(); i++) {
+            String line = System.lineSeparator() + (i + 1) + ". " + saveState.getTasks().get(i);
             reply.append(line);
         }
         printReply(reply.toString());
     }
 
-    private static void handleTaskCommand(String command, String arguments) throws QuarkCommandException {
+    private void handleTaskCommand(String command, String arguments) throws QuarkCommandException {
         switch (command) {
         case "todo" -> {
             ToDo task = new ToDo(arguments);
-            tasks.add(task);
+            saveState.getTasks().add(task);
         }
         case "deadline" -> {
             int indexOfBy = arguments.indexOf(PREFIX_BY);
@@ -63,7 +65,7 @@ public class Parser {
             }
 
             Deadline task = new Deadline(description, endDate);
-            tasks.add(task);
+            saveState.getTasks().add(task);
         }
         case "event" -> {
             int indexOfFrom = arguments.indexOf(PREFIX_FROM);
@@ -82,16 +84,18 @@ public class Parser {
             }
 
             Event task = new Event(description, startDate, endDate);
-            tasks.add(task);
+            saveState.getTasks().add(task);
         }
         }
 
+        int numTasks = saveState.getTasks().size();
+        int lastIndex = numTasks - 1;
         printReply("Added this task:" + System.lineSeparator()
-                + tasks.get(tasks.size() - 1) + System.lineSeparator()
-                + "You now have " + tasks.size() + " tasks in total.");
+                + saveState.getTasks().get(lastIndex) + System.lineSeparator()
+                + "You now have " + numTasks + " tasks in total.");
     }
 
-    private static void handleMarkUnmarkCommand(String command, String arguments) throws QuarkCommandException  {
+    private void handleMarkUnmarkCommand(String command, String arguments) throws QuarkCommandException  {
         boolean isMark = command.equals("mark");
         int id;
         try {
@@ -100,17 +104,17 @@ public class Parser {
             throw new QuarkCommandException("Failed to parse task number");
         }
 
-        if (id < 0 || id >= tasks.size()) {
+        if (id < 0 || id >= saveState.getTasks().size()) {
             throw new QuarkCommandException("Task number out of range");
         }
 
-        tasks.get(id).setDone(isMark);
+        saveState.getTasks().get(id).setDone(isMark);
         if (isMark) {
             printReply("Nice! I've marked this task as done:" + System.lineSeparator()
-                    + tasks.get(id));
+                    + saveState.getTasks().get(id));
         } else {
             printReply("OK, I've marked this task as not done yet:" + System.lineSeparator()
-                    + tasks.get(id));
+                    + saveState.getTasks().get(id));
         }
     }
 

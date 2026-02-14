@@ -1,6 +1,7 @@
 package quark.ui;
 
 import quark.parser.Parser;
+import quark.save.SaveManager;
 import quark.task.Deadline;
 import quark.task.Event;
 import quark.QuarkCommandException;
@@ -14,12 +15,12 @@ import static quark.ui.Ui.printByeReply;
 import static quark.ui.Ui.printHelloReply;
 
 public class Quark {
-    public static List<Task> tasks = new ArrayList<>();
-
     public static void main(String[] args) {
-        printHelloReply();
+        SaveManager saveManager = new SaveManager();
 
-        Parser parser = new Parser();
+        printHelloReply(saveManager.isLoadedFromFile(), saveManager.getFilePath().toString());
+
+        Parser parser = new Parser(saveManager.getState());
         parser.loop();
 
         printByeReply();
