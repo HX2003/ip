@@ -12,6 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 
 public class SaveManager {
+    public static final String SAVE_DELIMITER = "|";
+
     private static final String[] FILE_SAVE_PATH = {"quark", "save.txt"};
 
     private Path filePath;
