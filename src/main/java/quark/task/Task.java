@@ -1,9 +1,12 @@
 package quark.task;
 
+import quark.save.SaveManager;
 import quark.save.Saveable;
 
 public abstract class Task implements Saveable {
-    protected final String description;
+    public static final String IS_DONE_MARKER = "X";
+
+    private final String description;
     private boolean isDone;
 
     public Task(String description) {
@@ -15,15 +18,28 @@ public abstract class Task implements Saveable {
         this.isDone = isDone;
     }
 
-    public String toString() {
-        return description; // "[" + "]" + getStatusString()
+    public abstract String getPrefix();
+
+    private String getIsDoneString() {
+        return isDone ? IS_DONE_MARKER: " ";
     }
 
-    public String getDescription() {
-        return description;
+    private String getWrappedIsDoneString() {
+        return "[" + getIsDoneString() + "]";
     }
 
-    protected String getStatusString() {
-        return (isDone ? "[X]" : "[ ]"); // mark done task with X
+    private String getWrappedPrefixString() {
+        return "[" + getPrefix() + "]";
+    }
+
+    public String getMetaDisplayString() {
+        return getWrappedIsDoneString()
+                + getWrappedPrefixString()
+                + " " + description;
+    }
+
+    public String getMetaSaveString () {
+        return getIsDoneString() + SaveManager.SAVE_DELIMITER
+                + getPrefix() + SaveManager.SAVE_DELIMITER + description;
     }
 }
