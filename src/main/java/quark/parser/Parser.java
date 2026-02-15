@@ -7,6 +7,7 @@ import quark.task.Deadline;
 import quark.task.Event;
 import quark.task.ToDo;
 
+import static quark.ui.Ui.printByeReply;
 import static quark.ui.Ui.printReply;
 
 import java.util.Scanner;
@@ -33,8 +34,14 @@ public class Parser {
         printReply("Command \"" + command + "\" not recognized");
     }
 
-    private void handleAnnihilateCommands() {
+    private void handleByeCommand() {
+        saveManager.save();
+        printByeReply();
+    }
+    private void handleAnnihilateCommand() {
+        printReply("Attempting to delete from disk");
         saveManager.annihilate();
+        printByeReply();
     }
 
     private void handleListCommand()  {
@@ -140,10 +147,12 @@ public class Parser {
             switch (command) {
             case "" -> handleEmptyCommand();
             case "bye" -> {
+                handleByeCommand();
                 return true;
             }
             case "annihilate" -> {
-                handleAnnihilateCommands();
+                handleAnnihilateCommand();
+                return true;
             }
             case "list" -> handleListCommand();
             case "todo", "deadline", "event" -> handleTaskCommand(command, argument);

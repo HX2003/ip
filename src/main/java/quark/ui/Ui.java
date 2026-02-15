@@ -24,6 +24,10 @@ public class Ui {
         printReply("Oh o, something went wrong while saving: " + errorString);
     }
 
+    public static void printFailedToAnnihilateReply(String errorString) {
+        printReply("I could not delete from disk: " + errorString);
+    }
+
     public static void printByeReply() {
         printReply("Bye. Hope to see you again soon!");
     }

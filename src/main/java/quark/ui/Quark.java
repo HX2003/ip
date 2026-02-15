@@ -20,10 +20,7 @@ public class Quark {
 
         printHelloReply(saveManager.isLoadedFromFile(), saveManager.getFilePath().toString());
 
-        Parser parser = new Parser(saveManager.getState());
+        Parser parser = new Parser(saveManager);
         parser.loop();
-
-        saveManager.save();
-        printByeReply();
     }
 }
