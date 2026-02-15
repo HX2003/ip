@@ -42,7 +42,7 @@ public class Parser {
     }
 
     private void handleEmptyCommand() {
-        printReply("Command not recognized, did you mean to a enter command?");
+        printReply("Command not recognized, did you mean to enter command?");
     }
 
     private void handleUnrecognizableCommand(String command) {
