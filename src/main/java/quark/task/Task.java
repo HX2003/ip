@@ -33,13 +33,13 @@ public abstract class Task implements Saveable {
     }
 
     public String getMetaDisplayString() {
-        return getWrappedIsDoneString()
-                + getWrappedPrefixString()
+        return getWrappedPrefixString()
+                + getWrappedIsDoneString()
                 + " " + description;
     }
 
     public String getMetaSaveString () {
-        return getIsDoneString() + SaveManager.SAVE_DELIMITER
-                + getPrefix() + SaveManager.SAVE_DELIMITER + description;
+        return getPrefix() + SaveManager.SAVE_DELIMITER
+                + getIsDoneString() + SaveManager.SAVE_DELIMITER + description;
     }
 }

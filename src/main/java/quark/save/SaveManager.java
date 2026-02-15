@@ -20,8 +20,8 @@ import java.util.regex.Pattern;
 
 public class SaveManager {
     public static final String SAVE_DELIMITER = "|";
-    public static final int SAVE_TASK_IS_DONE_IDX = 0;
-    public static final int SAVE_TASK_PREFIX_IDX = 1;
+    public static final int SAVE_TASK_PREFIX_IDX = 0;
+    public static final int SAVE_TASK_IS_DONE_IDX = 1;
     public static final int SAVE_TASK_DESCRIPTION_IDX = 2;
     public static final int SAVE_TASK_MAX_IDX = SAVE_TASK_DESCRIPTION_IDX;
 
@@ -82,8 +82,8 @@ public class SaveManager {
             return null;
         }
 
-        boolean isDone = split[SAVE_TASK_IS_DONE_IDX].equals(IS_DONE_MARKER);
         String prefix = split[SAVE_TASK_PREFIX_IDX];
+        boolean isDone = split[SAVE_TASK_IS_DONE_IDX].equals(IS_DONE_MARKER);
         String description = split[SAVE_TASK_DESCRIPTION_IDX];
 
         switch (prefix) {
