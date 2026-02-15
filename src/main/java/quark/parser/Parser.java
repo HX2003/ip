@@ -59,6 +59,12 @@ public class Parser {
     }
 
     private void handleTaskCommand(String command, String arguments) throws QuarkCommandException {
+        if (arguments.contains(SaveManager.SAVE_DELIMITER)) {
+            throw new QuarkCommandException(
+                    "Your argument should not contain special character "
+                    + SaveManager.SAVE_DELIMITER);
+        }
+
         switch (command) {
         case "todo" -> {
             ToDo task = new ToDo(arguments);
