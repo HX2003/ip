@@ -5,6 +5,7 @@ import quark.save.SaveManager;
 import quark.save.SaveState;
 import quark.task.Deadline;
 import quark.task.Event;
+import quark.task.Task;
 import quark.task.ToDo;
 
 import static quark.ui.Ui.printByeReply;
@@ -24,6 +25,20 @@ public class Parser {
     public Parser(SaveManager saveManager) {
         this.saveManager = saveManager;
         this.saveState = saveManager.getState();
+    }
+
+    private int parseTaskIndex(String arguments) throws QuarkCommandException {
+        int id;
+        try {
+            id = Integer.parseInt(arguments) - 1;
+        } catch (NumberFormatException e) {
+            throw new QuarkCommandException("Failed to parse task number");
+        }
+
+        if (id < 0 || id >= saveState.getTasks().size()) {
+            throw new QuarkCommandException("Task number out of range");
+        }
+        return id;
     }
 
     private void handleEmptyCommand() {
@@ -117,17 +132,7 @@ public class Parser {
 
     private void handleMarkUnmarkCommand(String command, String arguments) throws QuarkCommandException  {
         boolean isMark = command.equals("mark");
-        int id;
-        try {
-            id = Integer.parseInt(arguments) - 1;
-        } catch (NumberFormatException e) {
-            throw new QuarkCommandException("Failed to parse task number");
-        }
-
-        if (id < 0 || id >= saveState.getTasks().size()) {
-            throw new QuarkCommandException("Task number out of range");
-        }
-
+        int id = parseTaskIndex(arguments);
         saveState.getTasks().get(id).setDone(isMark);
         if (isMark) {
             printReply("Nice! I've marked this task as done:" + System.lineSeparator()
@@ -136,6 +141,15 @@ public class Parser {
             printReply("OK, I've marked this task as not done yet:" + System.lineSeparator()
                     + saveState.getTasks().get(id));
         }
+    }
+
+    public void handleDeleteCommand(String ignoredCommand, String arguments) throws QuarkCommandException {
+        int id = parseTaskIndex(arguments);
+
+        Task task = saveState.getTasks().remove(id);
+        printReply("Ok! I've removed this task:" + System.lineSeparator()
+                + task + System.lineSeparator()
+                + "You now have " + saveState.getTasks().size() + " tasks in total.");
     }
 
     public boolean parse (String in) {
@@ -163,6 +177,7 @@ public class Parser {
             case "list" -> handleListCommand();
             case "todo", "deadline", "event" -> handleTaskCommand(command, argument);
             case "mark", "unmark" -> handleMarkUnmarkCommand(command, argument);
+            case "delete" -> handleDeleteCommand(command, argument);
             default -> handleUnrecognizableCommand(command);
             }
         } catch (QuarkCommandException e) {
