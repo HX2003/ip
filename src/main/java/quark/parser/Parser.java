@@ -1,6 +1,7 @@
 package quark.parser;
 
 import quark.QuarkCommandException;
+import quark.save.SaveManager;
 import quark.save.SaveState;
 import quark.task.Deadline;
 import quark.task.Event;
@@ -16,10 +17,12 @@ public class Parser {
     private static final String PREFIX_TO = " /to ";
     private static final String PREFIX_FROM = " /from ";
 
+    private final SaveManager saveManager;
     private final SaveState saveState;
 
-    public Parser(SaveState saveState) {
-        this.saveState = saveState;
+    public Parser(SaveManager saveManager) {
+        this.saveManager = saveManager;
+        this.saveState = saveManager.getState();
     }
 
     private void handleEmptyCommand() {
@@ -28,6 +31,10 @@ public class Parser {
 
     private void handleUnrecognizableCommand(String command) {
         printReply("Command \"" + command + "\" not recognized");
+    }
+
+    private void handleAnnihilateCommands() {
+        saveManager.annihilate();
     }
 
     private void handleListCommand()  {
@@ -134,6 +141,9 @@ public class Parser {
             case "" -> handleEmptyCommand();
             case "bye" -> {
                 return true;
+            }
+            case "annihilate" -> {
+                handleAnnihilateCommands();
             }
             case "list" -> handleListCommand();
             case "todo", "deadline", "event" -> handleTaskCommand(command, argument);

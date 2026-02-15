@@ -2,6 +2,7 @@ package quark.save;
 
 import quark.task.Task;
 
+import static quark.ui.Ui.printFailedToAnnihilateReply;
 import static quark.ui.Ui.printFailedToSaveReply;
 
 import java.io.BufferedWriter;
@@ -60,6 +61,14 @@ public class SaveManager {
             }
         } catch (IOException e) {
             printFailedToSaveReply(e.toString());
+        }
+    }
+
+    public void annihilate() {
+        try {
+            Files.delete(filePath);
+        } catch (IOException e) {
+            printFailedToAnnihilateReply(e.toString());
         }
     }
 
