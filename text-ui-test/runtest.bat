@@ -14,6 +14,12 @@ IF ERRORLEVEL 1 (
 )
 REM no error here, errorlevel == 0
 
+REM run the program, feed commands from cleanup.txt file
+REM which will remove any persistent file from previous runs
+REM and redirect the output to the ACTUAL-CLEANUP.TXT
+
+java -classpath ..\bin quark/ui/Quark < cleanup.txt > ACTUAL-CLEANUP.TXT
+
 REM run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT
 java -classpath ..\bin quark/ui/Quark < input.txt > ACTUAL.TXT
 

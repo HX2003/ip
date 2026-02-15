@@ -19,6 +19,11 @@ then
     exit 1
 fi
 
+# run the program, feed commands from cleanup.txt file
+# which will remove any persistent file from previous runs
+#and redirect the output to the ACTUAL-CLEANUP.TXT
+java -classpath ../bin quark/ui/Quark < cleanup.txt > ACTUAL-CLEANUP.TXT
+
 # run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT
 java -classpath ../bin quark/ui/Quark < input.txt > ACTUAL.TXT
 
