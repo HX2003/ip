@@ -15,7 +15,7 @@ Prerequisites: JDK 17, update Intellij to the most recent version.
    ```
    ____________________________________________________________
    Hello! I'm Quark
-   What can I do for you?
+   Looks like you're new here, what can I do for you?
    ____________________________________________________________
    ```
 
