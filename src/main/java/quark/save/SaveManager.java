@@ -20,17 +20,18 @@ import java.util.regex.Pattern;
 
 public class SaveManager {
     public static final String SAVE_DELIMITER = "|";
-    public static final int SAVE_TASK_PREFIX_IDX = 0;
-    public static final int SAVE_TASK_IS_DONE_IDX = 1;
-    public static final int SAVE_TASK_DESCRIPTION_IDX = 2;
-    public static final int SAVE_TASK_MAX_IDX = SAVE_TASK_DESCRIPTION_IDX;
 
-    public static final int SAVE_DEADLINE_END_DATE_IDX = 3;
-    public static final int SAVE_DEADLINE_MAX_IDX = SAVE_DEADLINE_END_DATE_IDX;
+    private static final int SAVE_TASK_PREFIX_IDX = 0;
+    private static final int SAVE_TASK_IS_DONE_IDX = 1;
+    private static final int SAVE_TASK_DESCRIPTION_IDX = 2;
+    private static final int SAVE_TASK_MAX_IDX = SAVE_TASK_DESCRIPTION_IDX;
 
-    public static final int SAVE_EVENT_START_DATE_IDX = 3;
-    public static final int SAVE_EVENT_END_DATE_IDX = 4;
-    public static final int SAVE_EVENT_MAX_IDX = SAVE_EVENT_END_DATE_IDX;
+    private static final int SAVE_DEADLINE_END_DATE_IDX = 3;
+    private static final int SAVE_DEADLINE_MAX_IDX = SAVE_DEADLINE_END_DATE_IDX;
+
+    private static final int SAVE_EVENT_START_DATE_IDX = 3;
+    private static final int SAVE_EVENT_END_DATE_IDX = 4;
+    private static final int SAVE_EVENT_MAX_IDX = SAVE_EVENT_END_DATE_IDX;
 
 
     private static final String[] FILE_SAVE_PATH = {"quark", "save.txt"};
@@ -130,7 +131,9 @@ public class SaveManager {
         // it will automatically create a new file if it does not exist
         try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
             for (Task task: state.getTasks()) {
-                writer.write(task.toSaveString());
+                ArrayList<String> strings = task.toSaveStrings();
+                String flattenedString = String.join(SAVE_DELIMITER, strings);
+                writer.write(flattenedString);
                 writer.newLine();
             }
         } catch (IOException e) {

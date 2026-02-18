@@ -1,6 +1,6 @@
 package quark.task;
 
-import quark.save.SaveManager;
+import java.util.ArrayList;
 
 public class Event extends Task {
     public static final String PREFIX = "E";
@@ -26,8 +26,10 @@ public class Event extends Task {
     }
 
     @Override
-    public String toSaveString() {
-        return getMetaSaveString() + SaveManager.SAVE_DELIMITER
-                + startDate + SaveManager.SAVE_DELIMITER + endDate;
+    public ArrayList<String> toSaveStrings() {
+        ArrayList<String> strings = getMetaSaveStrings();
+        strings.add(startDate);
+        strings.add(endDate);
+        return strings;
     }
 }

@@ -1,7 +1,8 @@
 package quark.task;
 
-import quark.save.SaveManager;
 import quark.save.Saveable;
+
+import java.util.ArrayList;
 
 public abstract class Task implements Saveable {
     public static final String IS_DONE_MARKER = "X";
@@ -39,8 +40,11 @@ public abstract class Task implements Saveable {
                 + " " + description;
     }
 
-    public String getMetaSaveString () {
-        return getPrefix() + SaveManager.SAVE_DELIMITER
-                + getIsDoneString() + SaveManager.SAVE_DELIMITER + description;
+    public ArrayList<String> getMetaSaveStrings() {
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add(getPrefix());
+        strings.add(getIsDoneString());
+        strings.add(description);
+        return strings;
     }
 }

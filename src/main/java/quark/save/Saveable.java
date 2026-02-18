@@ -1,5 +1,7 @@
 package quark.save;
 
+import java.util.ArrayList;
+
 public interface Saveable {
-    public String toSaveString();
+    ArrayList<String> toSaveStrings();
 }

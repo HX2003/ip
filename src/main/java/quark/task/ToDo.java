@@ -1,5 +1,7 @@
 package quark.task;
 
+import java.util.ArrayList;
+
 public class ToDo extends Task {
     public static final String PREFIX = "T";
 
@@ -17,7 +19,7 @@ public class ToDo extends Task {
     }
 
     @Override
-    public String toSaveString() {
-        return getMetaSaveString();
+    public ArrayList<String> toSaveStrings() {
+        return getMetaSaveStrings();
     }
 }
