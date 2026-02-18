@@ -4,6 +4,8 @@ import quark.save.SaveManager;
 
 public class Deadline extends Task {
     public static final String PREFIX = "D";
+    public static final String DEADLINE_FORMAT = "%1$s (by: %2$s)";
+
 
     private final String endDate;
 
@@ -19,7 +21,7 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return getMetaDisplayString() + " (by: " + endDate + ")";
+        return String.format(DEADLINE_FORMAT, getMetaDisplayString(), endDate);
     }
 
     @Override

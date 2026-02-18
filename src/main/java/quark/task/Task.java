@@ -5,6 +5,7 @@ import quark.save.Saveable;
 
 public abstract class Task implements Saveable {
     public static final String IS_DONE_MARKER = "X";
+    public static final String WRAP = "[%1$s]";
 
     private final String description;
     private boolean isDone;
@@ -25,11 +26,11 @@ public abstract class Task implements Saveable {
     }
 
     private String getWrappedIsDoneString() {
-        return "[" + getIsDoneString() + "]";
+        return String.format(WRAP, getIsDoneString());
     }
 
     private String getWrappedPrefixString() {
-        return "[" + getPrefix() + "]";
+        return String.format(WRAP, getPrefix());
     }
 
     public String getMetaDisplayString() {
