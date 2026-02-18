@@ -7,7 +7,7 @@ import static quark.ui.Ui.printHelloReply;
 
 public class Quark {
     private static Ui ui;
-    private static Parser parser;
+    private static SaveManager saveManager;
 
     public static void main(String[] args) {
         initialize();
@@ -16,9 +16,7 @@ public class Quark {
 
     private static void initialize() {
         ui = new Ui();
-        SaveManager saveManager = new SaveManager();
-        parser = new Parser(saveManager);
-
+        saveManager = new SaveManager();
         printHelloReply(saveManager.isLoadedFromFile(), saveManager.getFilePath().toString());
     }
 
@@ -27,7 +25,7 @@ public class Quark {
         boolean exit;
         do {
             String line = ui.getLine();
-            exit = parser.parse(line);
+            exit = new Parser(saveManager).parse(line);
         } while(!exit);
     }
 }
