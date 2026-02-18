@@ -1,7 +1,21 @@
 package quark.ui;
 
+import java.util.Scanner;
+
 public class Ui {
     private static final String SEPARATOR = "____________________________________________________________";
+    private final Scanner scanner;
+
+    public Ui() {
+        scanner = new Scanner(System.in);
+    }
+
+    public String getLine() {
+        if (scanner.hasNextLine()) {
+            return scanner.nextLine();
+        }
+        return "";
+    }
 
     public static void printReply(String reply) {
         System.out.println(SEPARATOR + System.lineSeparator()

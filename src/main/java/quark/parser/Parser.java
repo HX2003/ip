@@ -11,9 +11,6 @@ import quark.task.ToDo;
 import static quark.ui.Ui.printByeReply;
 import static quark.ui.Ui.printReply;
 
-import java.util.Scanner;
-
-
 public class Parser {
     private static final String PREFIX_BY = " /by ";
     private static final String PREFIX_TO = " /to ";
@@ -185,15 +182,5 @@ public class Parser {
         }
 
         return false;
-    }
-
-    public void loop() {
-        Scanner in = new Scanner(System.in);
-
-        while (true) {
-            if (in.hasNextLine()) {
-                if (parse(in.nextLine())) break;
-            }
-        }
     }
 }
