@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public abstract class Task implements Saveable {
     public static final String IS_DONE_MARKER = "X";
-    public static final String WRAP = "[%1$s]";
+    public static final String FORMAT_WRAP = "[%1$s]";
 
     private final String description;
     private boolean isDone;
@@ -27,11 +27,11 @@ public abstract class Task implements Saveable {
     }
 
     private String getWrappedIsDoneString() {
-        return String.format(WRAP, getIsDoneString());
+        return String.format(FORMAT_WRAP, getIsDoneString());
     }
 
     private String getWrappedPrefixString() {
-        return String.format(WRAP, getPrefix());
+        return String.format(FORMAT_WRAP, getPrefix());
     }
 
     public String getMetaDisplayString() {

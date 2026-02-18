@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Deadline extends Task {
     public static final String PREFIX = "D";
-    public static final String DEADLINE_FORMAT = "%1$s (by: %2$s)";
+    public static final String FORMAT_DEADLINE = "%1$s (by: %2$s)";
 
 
     private final String endDate;
@@ -21,7 +21,7 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return String.format(DEADLINE_FORMAT, getMetaDisplayString(), endDate);
+        return String.format(FORMAT_DEADLINE, getMetaDisplayString(), endDate);
     }
 
     @Override

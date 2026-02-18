@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Event extends Task {
     public static final String PREFIX = "E";
-    public static final String EVENT_FORMAT = "%1$s (from: %2$s, to: %3$s)";
+    public static final String FORMAT_EVENT = "%1$s (from: %2$s, to: %3$s)";
 
     private final String startDate;
     private final String endDate;
@@ -22,7 +22,7 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return String.format(EVENT_FORMAT, getMetaDisplayString(), startDate, endDate);
+        return String.format(FORMAT_EVENT, getMetaDisplayString(), startDate, endDate);
     }
 
     @Override
