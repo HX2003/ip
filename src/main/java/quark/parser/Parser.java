@@ -1,14 +1,13 @@
 package quark.parser;
 
 import quark.QuarkCommandException;
+import quark.command.Command;
 import quark.save.SaveManager;
 import quark.save.SaveState;
 import quark.task.Deadline;
 import quark.task.Event;
 import quark.task.Task;
 import quark.task.ToDo;
-
-import java.io.IOException;
 
 import static quark.ui.Ui.printByeReply;
 import static quark.ui.Ui.printFailedToAnnihilateReply;
@@ -58,7 +57,7 @@ public class Parser {
     }
     private void handleAnnihilateCommand() {
         printReply("Attempting to delete from disk");
-        if(saveManager.annihilate()) {
+        if (!saveManager.annihilate()) {
             printFailedToAnnihilateReply();
         }
         printByeReply();
@@ -86,11 +85,11 @@ public class Parser {
         }
 
         switch (command) {
-        case "todo" -> {
+        case Command.TODO -> {
             ToDo task = new ToDo(arguments);
             saveState.getTasks().add(task);
         }
-        case "deadline" -> {
+        case Command.DEADLINE -> {
             int indexOfBy = arguments.indexOf(PREFIX_BY);
 
             if (indexOfBy == -1) {
@@ -107,7 +106,7 @@ public class Parser {
             Deadline task = new Deadline(description, endDate);
             saveState.getTasks().add(task);
         }
-        case "event" -> {
+        case Command.EVENT -> {
             int indexOfFrom = arguments.indexOf(PREFIX_FROM);
             int indexOfTo = arguments.indexOf(PREFIX_TO);
 
@@ -170,19 +169,19 @@ public class Parser {
 
         try {
             switch (command) {
-            case "" -> handleEmptyCommand();
-            case "bye" -> {
+            case Command.BLANK -> handleEmptyCommand();
+            case Command.BYE -> {
                 handleByeCommand();
                 return true;
             }
-            case "annihilate" -> {
+            case Command.ANNIHILATE -> {
                 handleAnnihilateCommand();
                 return true;
             }
-            case "list" -> handleListCommand();
-            case "todo", "deadline", "event" -> handleTaskCommand(command, argument);
-            case "mark", "unmark" -> handleMarkUnmarkCommand(command, argument);
-            case "delete" -> handleDeleteCommand(command, argument);
+            case Command.LIST -> handleListCommand();
+            case Command.TODO, Command.DEADLINE, Command.EVENT -> handleTaskCommand(command, argument);
+            case Command.MARK, Command.UNMARK -> handleMarkUnmarkCommand(command, argument);
+            case Command.DELETE -> handleDeleteCommand(command, argument);
             default -> handleUnrecognizableCommand(command);
             }
         } catch (QuarkCommandException e) {
