@@ -134,17 +134,18 @@ public class Parser {
                 + "You now have " + numTasks + " tasks in total.");
     }
 
-    private void handleMarkUnmarkCommand(String command, String arguments) throws QuarkCommandException  {
-        boolean isMark = command.equals("mark");
+    private void handleMarkCommand(String ignoredCommand, String arguments) throws QuarkCommandException  {
         int id = parseTaskIndex(arguments);
-        saveState.getTasks().get(id).setDone(isMark);
-        if (isMark) {
-            printReply("Nice! I've marked this task as done:" + System.lineSeparator()
+        saveState.getTasks().get(id).setDone(true);
+        printReply("Nice! I've marked this task as done:" + System.lineSeparator()
                     + saveState.getTasks().get(id));
-        } else {
-            printReply("OK, I've marked this task as not done yet:" + System.lineSeparator()
-                    + saveState.getTasks().get(id));
-        }
+    }
+
+    private void handleUnmarkCommand(String ignoredCommand, String arguments) throws QuarkCommandException  {
+        int id = parseTaskIndex(arguments);
+        saveState.getTasks().get(id).setDone(false);
+        printReply("OK, I've marked this task as not done yet:" + System.lineSeparator()
+                + saveState.getTasks().get(id));
     }
 
     public void handleDeleteCommand(String ignoredCommand, String arguments) throws QuarkCommandException {
@@ -180,7 +181,8 @@ public class Parser {
             }
             case Command.LIST -> handleListCommand();
             case Command.TODO, Command.DEADLINE, Command.EVENT -> handleTaskCommand(command, argument);
-            case Command.MARK, Command.UNMARK -> handleMarkUnmarkCommand(command, argument);
+            case Command.MARK -> handleMarkCommand(command, argument);
+            case Command.UNMARK -> handleUnmarkCommand(command, argument);
             case Command.DELETE -> handleDeleteCommand(command, argument);
             default -> handleUnrecognizableCommand(command);
             }
