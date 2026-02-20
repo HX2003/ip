@@ -8,7 +8,11 @@ import quark.task.Event;
 import quark.task.Task;
 import quark.task.ToDo;
 
+import java.io.IOException;
+
 import static quark.ui.Ui.printByeReply;
+import static quark.ui.Ui.printFailedToAnnihilateReply;
+import static quark.ui.Ui.printFailedToSaveReply;
 import static quark.ui.Ui.printReply;
 
 public class Parser {
@@ -47,12 +51,16 @@ public class Parser {
     }
 
     private void handleByeCommand() {
-        saveManager.save();
+        if (!saveManager.save()) {
+            printFailedToSaveReply();
+        }
         printByeReply();
     }
     private void handleAnnihilateCommand() {
         printReply("Attempting to delete from disk");
-        saveManager.annihilate();
+        if(saveManager.annihilate()) {
+            printFailedToAnnihilateReply();
+        }
         printByeReply();
     }
 

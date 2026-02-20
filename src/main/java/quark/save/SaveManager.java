@@ -6,8 +6,6 @@ import quark.task.Event;
 import quark.task.ToDo;
 
 import static quark.task.Task.IS_DONE_MARKER;
-import static quark.ui.Ui.printFailedToAnnihilateReply;
-import static quark.ui.Ui.printFailedToSaveReply;
 
 import java.io.BufferedWriter;
 import java.io.BufferedReader;
@@ -15,7 +13,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class SaveManager {
@@ -119,12 +117,12 @@ public class SaveManager {
         }
     }
 
-    public void save() {
+    public boolean save() {
         // Create directory for the file if not exist
         try {
             Files.createDirectories(filePath.getParent());
         } catch (IOException e) {
-            printFailedToSaveReply(e.toString());
+            return false;
         }
 
         // Try to write task data into a file,
@@ -137,16 +135,20 @@ public class SaveManager {
                 writer.newLine();
             }
         } catch (IOException e) {
-            printFailedToSaveReply(e.toString());
+            return false;
         }
+
+        return true;
     }
 
-    public void annihilate() {
+    public boolean annihilate() {
         try {
             Files.delete(filePath);
         } catch (IOException e) {
-            printFailedToAnnihilateReply(e.toString());
+            return false;
         }
+
+        return true;
     }
 
     public boolean isLoadedFromFile() {

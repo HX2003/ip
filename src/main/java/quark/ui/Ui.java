@@ -36,12 +36,12 @@ public class Ui {
         }
     }
 
-    public static void printFailedToSaveReply(String errorString) {
-        printReply("Oh o, something went wrong while saving: " + errorString);
+    public static void printFailedToSaveReply() {
+        printReply("Oh o, something went wrong while saving");
     }
 
-    public static void printFailedToAnnihilateReply(String errorString) {
-        printReply("I could not delete from disk: " + errorString);
+    public static void printFailedToAnnihilateReply() {
+        printReply("I could not delete from disk");
     }
 
     public static void printByeReply() {
