@@ -9,6 +9,9 @@ import quark.task.Event;
 import quark.task.Task;
 import quark.task.ToDo;
 
+import java.util.ArrayList;
+import java.util.stream.*;
+
 import static quark.ui.Ui.printByeReply;
 import static quark.ui.Ui.printFailedToAnnihilateReply;
 import static quark.ui.Ui.printFailedToSaveReply;
@@ -72,6 +75,30 @@ public class Parser {
         }
         for (int i = 0; i < saveState.getTasks().size(); i++) {
             String line = System.lineSeparator() + (i + 1) + ". " + saveState.getTasks().get(i);
+            reply.append(line);
+        }
+        printReply(reply.toString());
+    }
+
+    private void handleFindCommand(String ignoreCommand, String arguments) throws QuarkCommandException{
+        if (arguments.isBlank()) {
+            throw new QuarkCommandException("Your argument is blank");
+        }
+
+        ArrayList<Task> filteredTasks = saveState.getTasks()
+                .stream()
+                .filter(t -> t.getDescription().contains(arguments))
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        StringBuilder reply = new StringBuilder();
+        if (filteredTasks.isEmpty()) {
+            reply.append("No matching tasks found");
+        } else {
+            reply.append("Here are the matching tasks:");
+        }
+
+        for (int i = 0; i < filteredTasks.size(); i++) {
+            String line = System.lineSeparator() + filteredTasks.get(i);
             reply.append(line);
         }
         printReply(reply.toString());
@@ -180,6 +207,7 @@ public class Parser {
                 return true;
             }
             case Command.LIST -> handleListCommand();
+            case Command.FIND -> handleFindCommand(command, argument);
             case Command.TODO, Command.DEADLINE, Command.EVENT -> handleTaskCommand(command, argument);
             case Command.MARK -> handleMarkCommand(command, argument);
             case Command.UNMARK -> handleUnmarkCommand(command, argument);

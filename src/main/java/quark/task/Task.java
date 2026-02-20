@@ -20,6 +20,10 @@ public abstract class Task implements Saveable {
         this.isDone = isDone;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public abstract String getPrefix();
 
     private String getIsDoneString() {

@@ -7,6 +7,8 @@ mark 2
 list
 unmark 2
 list
+find eoldm
+find book
 mark 999
 uducsdncsoww
 delete 1
