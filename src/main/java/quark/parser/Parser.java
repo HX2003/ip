@@ -80,7 +80,11 @@ public class Parser {
         printReply(reply.toString());
     }
 
-    private void handleFindCommand(String ignoreCommand, String arguments) {
+    private void handleFindCommand(String ignoreCommand, String arguments) throws QuarkCommandException{
+        if (arguments.isBlank()) {
+            throw new QuarkCommandException("Your argument is blank");
+        }
+
         ArrayList<Task> filteredTasks = saveState.getTasks()
                 .stream()
                 .filter(t -> t.getDescription().contains(arguments))
