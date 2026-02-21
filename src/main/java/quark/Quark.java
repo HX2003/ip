@@ -1,7 +1,8 @@
-package quark.ui;
+package quark;
 
 import quark.parser.Parser;
 import quark.save.SaveManager;
+import quark.ui.Ui;
 
 import static quark.ui.Ui.printHelloReply;
 

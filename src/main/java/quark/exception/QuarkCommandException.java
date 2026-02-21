@@ -1,4 +1,4 @@
-package quark;
+package quark.exception;
 
 public class QuarkCommandException extends Exception {
     public QuarkCommandException(String message) {

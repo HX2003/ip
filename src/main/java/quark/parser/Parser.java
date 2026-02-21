@@ -1,6 +1,6 @@
 package quark.parser;
 
-import quark.QuarkCommandException;
+import quark.exception.QuarkCommandException;
 import quark.command.Command;
 import quark.save.SaveManager;
 import quark.save.SaveState;
@@ -10,7 +10,7 @@ import quark.task.Task;
 import quark.task.ToDo;
 
 import java.util.ArrayList;
-import java.util.stream.*;
+import java.util.stream.Collectors;
 
 import static quark.ui.Ui.printByeReply;
 import static quark.ui.Ui.printFailedToAnnihilateReply;
