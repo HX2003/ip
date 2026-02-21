@@ -17,19 +17,45 @@ import static quark.ui.Ui.printFailedToAnnihilateReply;
 import static quark.ui.Ui.printFailedToSaveReply;
 import static quark.ui.Ui.printReply;
 
+/**
+ * Handles the parsing and execution of commands,
+ * based on provided input strings.
+ */
 public class Parser {
+    /** The keyword used to indicate an endDate in deadline command */
     private static final String PREFIX_BY = " /by ";
+
+    /** The keyword used to indicate an endDate in event command */
     private static final String PREFIX_TO = " /to ";
+
+    /** The keyword used to indicate an startDate in event command */
     private static final String PREFIX_FROM = " /from ";
 
     private final SaveManager saveManager;
     private final SaveState saveState;
 
+    /**
+     * Constructs a new Parser with the specified save manager.
+     * Initializes the parser with the current save state from the manager.
+     *
+     * @param saveManager The SaveManager instance to be used for
+     *                    obtaining and managing the save state.
+     */
     public Parser(SaveManager saveManager) {
         this.saveManager = saveManager;
         this.saveState = saveManager.getState();
     }
 
+    /**
+     * Parses a task index from the given command arguments.
+     * The arguments should contain a valid integer representing the task number.
+     *
+     * @param arguments The command arguments containing the task index.
+     * @return The parsed task index as a zero-based integer.
+     * @throws QuarkCommandException If the argument is in an invalid format,
+     *         such as when it is empty, contain non-numeric characters,
+     *         or represent a number out of range.
+     */
     private int parseTaskIndex(String arguments) throws QuarkCommandException {
         int id;
         try {
@@ -44,20 +70,35 @@ public class Parser {
         return id;
     }
 
+    /**
+     * Handles an empty command.
+     */
     private void handleEmptyCommand() {
         printReply("Command not recognized, did you mean to enter command?");
     }
 
+    /**
+     * Handles an unrecognizable command.
+     *
+     * @param command The unrecognized command string entered by the user.
+     */
     private void handleUnrecognizableCommand(String command) {
         printReply("Command \"" + command + "\" not recognized");
     }
 
+    /**
+     * Handles a bye command.
+     */
     private void handleByeCommand() {
         if (!saveManager.save()) {
             printFailedToSaveReply();
         }
         printByeReply();
     }
+
+    /**
+     * Handles an annihilate command, for deleting the save file.
+     */
     private void handleAnnihilateCommand() {
         printReply("Attempting to delete from disk");
         if (!saveManager.annihilate()) {
@@ -66,6 +107,9 @@ public class Parser {
         printByeReply();
     }
 
+    /**
+     * Handles a list command, for listing all tasks.
+     */
     private void handleListCommand()  {
         StringBuilder reply = new StringBuilder();
         if (saveState.getTasks().isEmpty()) {
@@ -74,13 +118,25 @@ public class Parser {
             reply.append("Here are the tasks:");
         }
         for (int i = 0; i < saveState.getTasks().size(); i++) {
-            String line = System.lineSeparator() + (i + 1) + ". " + saveState.getTasks().get(i);
+            String taskString = saveState.getTasks().get(i).toString();
+            String line = System.lineSeparator() + (i + 1) + ". " + taskString;
             reply.append(line);
         }
         printReply(reply.toString());
     }
 
-    private void handleFindCommand(String ignoreCommand, String arguments) throws QuarkCommandException{
+    /**
+     * Handles a find command,
+     * by searching for tasks with description containing the specified string
+     * and displaying all matching tasks to the user.
+     *
+     *  @param ignoredCommand The command string which is not used in this method.
+     *  @param arguments The search string used to filter tasks by description.
+     *  @throws QuarkCommandException If the argument is in an invalid format,
+     *          such as when it is empty.
+     */
+    private void handleFindCommand(String ignoredCommand, String arguments)
+            throws QuarkCommandException {
         if (arguments.isBlank()) {
             throw new QuarkCommandException("Your argument is blank");
         }
@@ -104,7 +160,16 @@ public class Parser {
         printReply(reply.toString());
     }
 
-    private void handleTaskCommand(String command, String arguments) throws QuarkCommandException {
+    /**
+     * Handles task-related commands for creating new task,
+     * they include the todo, deadline and event command.
+     *
+     * @param command The command string which is either todo, deadline or event.
+     * @param arguments The various additional arguments.
+     * @throws QuarkCommandException If argument is in invalid format.
+     */
+    private void handleTaskCommand(String command, String arguments)
+            throws QuarkCommandException {
         if (arguments.contains(SaveManager.SAVE_DELIMITER)) {
             throw new QuarkCommandException(
                     "Your argument should not contain special character "
@@ -161,21 +226,45 @@ public class Parser {
                 + "You now have " + numTasks + " tasks in total.");
     }
 
-    private void handleMarkCommand(String ignoredCommand, String arguments) throws QuarkCommandException  {
+    /**
+     * Handles mark command, for setting a task as completed.
+     *
+     * @param ignoredCommand The command string which is not used in this method.
+     * @param arguments The index of the task starting from 1.
+     * @throws QuarkCommandException If argument is in invalid format
+     */
+    private void handleMarkCommand(String ignoredCommand, String arguments)
+            throws QuarkCommandException  {
         int id = parseTaskIndex(arguments);
         saveState.getTasks().get(id).setDone(true);
         printReply("Nice! I've marked this task as done:" + System.lineSeparator()
                     + saveState.getTasks().get(id));
     }
 
-    private void handleUnmarkCommand(String ignoredCommand, String arguments) throws QuarkCommandException  {
+    /**
+     * Handles unmark command, for setting a task as not completed.
+     *
+     * @param ignoredCommand The command string which is not used in this method.
+     * @param arguments The index of the task starting from 1.
+     * @throws QuarkCommandException If argument is in invalid format
+     */
+    private void handleUnmarkCommand(String ignoredCommand, String arguments)
+            throws QuarkCommandException  {
         int id = parseTaskIndex(arguments);
         saveState.getTasks().get(id).setDone(false);
         printReply("OK, I've marked this task as not done yet:" + System.lineSeparator()
                 + saveState.getTasks().get(id));
     }
 
-    public void handleDeleteCommand(String ignoredCommand, String arguments) throws QuarkCommandException {
+    /**
+     * Handles a delete command, for removing task.
+     *
+     *  @param ignoredCommand The command string which is not used in this method.
+     *  @param arguments The index of the task starting from 1.
+     *  @throws QuarkCommandException If the argument is in an invalid format.
+     */
+    private void handleDeleteCommand(String ignoredCommand, String arguments)
+            throws QuarkCommandException {
         int id = parseTaskIndex(arguments);
 
         Task task = saveState.getTasks().remove(id);
@@ -184,6 +273,13 @@ public class Parser {
                 + "You now have " + saveState.getTasks().size() + " tasks in total.");
     }
 
+    /**
+     * Parses and executes the command intended by raw user input.
+     *
+     * @param in The raw input string from the user.
+     * @return true if the command indicates the program should exit (bye or annihilate commands),
+     *         false otherwise.
+     */
     public boolean parse (String in) {
         String line = in.trim();
         String[] split = line.split(" ", 2); // Split into command, and arguments
