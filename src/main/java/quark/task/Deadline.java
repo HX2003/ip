@@ -21,6 +21,7 @@ public class Deadline extends Task {
      * The task is initially marked as not done.
      *
      * @param description The description of the task.
+     * @param endDate The endDate of the task.
      */
     public Deadline(String description, String endDate) {
         super(description);

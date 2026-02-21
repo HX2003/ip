@@ -23,6 +23,8 @@ public class Event extends Task {
      * The task is initially marked as not done.
      *
      * @param description The description of the task.
+     * @param startDate The endDate of the task.
+     * @param endDate The endDate of the task.
      */
     public Event(String description, String startDate, String endDate) {
         super(description);
