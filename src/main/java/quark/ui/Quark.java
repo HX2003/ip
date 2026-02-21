@@ -22,10 +22,10 @@ public class Quark {
 
 
     private static void run() {
-        boolean exit;
+        boolean isExit;
         do {
             String line = ui.getLine();
-            exit = new Parser(saveManager).parse(line);
-        } while(!exit);
+            isExit = new Parser(saveManager).parse(line);
+        } while(!isExit);
     }
 }
