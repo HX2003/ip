@@ -1,5 +1,8 @@
 package quark.command;
 
+/**
+ * Contains all possible commands
+ */
 public class Command {
     public static final String BLANK = "";
     public static final String BYE = "bye";

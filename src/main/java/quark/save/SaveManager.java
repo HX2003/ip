@@ -16,7 +16,14 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+/**
+ * Stores and handles the save state,
+ * including deletion and loading of saves from file on disk.
+ */
 public class SaveManager {
+    /**
+     * The character string used to separate different properties
+     * on a single line of saved text */
     public static final String SAVE_DELIMITER = "|";
 
     private static final int SAVE_TASK_PREFIX_IDX = 0;
@@ -31,23 +38,39 @@ public class SaveManager {
     private static final int SAVE_EVENT_END_DATE_IDX = 4;
     private static final int SAVE_EVENT_MAX_IDX = SAVE_EVENT_END_DATE_IDX;
 
-
+    /** The file save path relative to the user's home directory */
     private static final String[] FILE_SAVE_PATH = {"quark", "save.txt"};
 
     private Path filePath;
     private SaveState state;
+
+    /**
+     * true if the save state was created from the file on disk,
+     * false if the save state was created from scratch
+     */
     private boolean isLoadedFromFile;
 
+    /**
+     * Sets up the required objects,
+     * and immediately attempts to load the save state from the file.
+     */
     public SaveManager() {
         initializeFilePath();
         loadSave();
     }
 
+    /**
+     * Sets up the intended file path object.
+     */
     private void initializeFilePath () {
         String home = System.getProperty("user.home");
         filePath = Path.of(home, FILE_SAVE_PATH);
     }
 
+    /**
+     * Loads the save state from the file on disk if it exists,
+     * or creates it from scratch otherwise.
+     */
     private void loadSave() {
         try (BufferedReader reader = Files.newBufferedReader(filePath)) {
             state = createSaveState(reader);
@@ -58,6 +81,14 @@ public class SaveManager {
         }
     }
 
+    /**
+     * Creates and returns a save state that is generated
+     * by reading the file using the specified BufferedReader instance.
+     *
+     * @param reader An instance of BufferedReader
+     * @return The created save state
+     * @throws IOException If there is file access error
+     */
     private SaveState createSaveState(BufferedReader reader) throws IOException {
         SaveState state = new SaveState();
         String line;
@@ -71,6 +102,13 @@ public class SaveManager {
         return state;
     }
 
+    /**
+     * Creates and returns a task that is generated
+     * by parsing the specified line string.
+     *
+     * @param in The input line string
+     * @return The created task
+     */
     private Task createTask(String in) {
         String splitBy = Pattern.quote(SAVE_DELIMITER);
         String[] split = in.split(splitBy);
@@ -117,6 +155,14 @@ public class SaveManager {
         }
     }
 
+    /**
+     * Save the save state to a file on disk,
+     * if the file or its directory did not exist previously,
+     * it will automatically be created.
+     *
+     * @return true if the save state was successfully saved to the file,
+     *         false if an IO error occurred during the saving.
+     */
     public boolean save() {
         // Create directory for the file if not exist
         try {
@@ -141,6 +187,12 @@ public class SaveManager {
         return true;
     }
 
+    /**
+     * Deletes the file used to store the save state.
+     *
+     * @return true if the file was successfully deleted,
+     *         false if the file did not exist or an IO error occurred during deletion.
+     */
     public boolean annihilate() {
         try {
             Files.delete(filePath);
@@ -151,14 +203,24 @@ public class SaveManager {
         return true;
     }
 
+    /**
+     * Returns whether save state was created from the file on disk.
+     */
     public boolean isLoadedFromFile() {
         return isLoadedFromFile;
     }
 
+    /**
+     * Returns the file path of the intended save location on the disk,
+     * regardless of whether the file exists or not.
+     */
     public Path getFilePath() {
         return filePath;
     }
 
+    /**
+     * Returns the save state.
+     */
     public SaveState getState() {
         return state;
     }
