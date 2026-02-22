@@ -108,7 +108,7 @@ Example:
 * `delete 1` Removes the first task in the list.
 
 ### Remove save file from disk `annihilate`
-Removes the save file used to store your tasks from disk.
+Removes the save file used to store your tasks from disk, and exits the application.
 
 Format: `annihilate`
 
