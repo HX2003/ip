@@ -143,7 +143,8 @@ public class Parser {
 
         ArrayList<Task> filteredTasks = saveState.getTasks()
                 .stream()
-                .filter(t -> t.getDescription().contains(arguments))
+                .filter(t -> t.getDescription().toLowerCase()
+                        .contains(arguments.toLowerCase()))
                 .collect(Collectors.toCollection(ArrayList::new));
 
         StringBuilder reply = new StringBuilder();
