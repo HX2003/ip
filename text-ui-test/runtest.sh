@@ -13,7 +13,7 @@ then
 fi
 
 # compile the code into the bin folder, terminates if error occurred
-if ! javac -cp ../src/main/java -Xlint:none -d ../bin ..\src\main\java\quark\*.java ..\src\main\java\quark\ui\*.java ..\src\main\java\quark\task\*.java ..\src\main\java\quark\save\*.java ..\src\main\java\quark\parser\*.java ..\src\main\java\quark\exception\*.java ..\src\main\java\quark\command\*.java
+if ! javac -cp ../src/main/java -Xlint:none -d ../bin -sourcepath ../src/main/java ../src/main/java/quark/Quark.java
 then
     echo "********** BUILD FAILURE **********"
     exit 1
@@ -22,10 +22,10 @@ fi
 # run the program, feed commands from cleanup.txt file
 # which will remove any persistent file from previous runs
 #and redirect the output to the ACTUAL-CLEANUP.TXT
-java -classpath ../bin quark/ui/Quark < cleanup.txt > ACTUAL-CLEANUP.TXT
+java -classpath ../bin quark/Quark < cleanup.txt > ACTUAL-CLEANUP.TXT
 
 # run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT
-java -classpath ../bin quark/ui/Quark < input.txt > ACTUAL.TXT
+java -classpath ../bin quark/Quark < input.txt > ACTUAL.TXT
 
 # convert to UNIX format
 cp EXPECTED.TXT EXPECTED-UNIX.TXT
