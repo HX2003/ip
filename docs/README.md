@@ -1,30 +1,118 @@
 # Quark User Guide
 
-// Update the title above to match the actual product name
+![Product Screenshot](product_screenshot.png "Product Screenshot")
 
-// Product screenshot goes here
+Quark is a Command Line Interface (CLI) application that facilitates the convenient tracking and management of tasks.
 
-// Product intro goes here
+## Quick start
+1. Ensure you have Java `17` installed in your Computer.
 
-## Adding deadlines
+2. Download the latest `.jar` file from [here](https://github.com/HX2003/ip/releases).
 
-// Describe the action and its outcome.
+3. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar Quark.jar` command to run the application.
 
-// Give examples of usage
+4. Proceed to execute commands, refer to the Features below for details of each command.
 
-Example: `keyword (optional arguments)`
+## Features
 
-// A description of the expected outcome goes here
+### Add a todo task `todo`
+Adds a todo task which is the most basic type of task, consisting only of a description and a completion status.
 
+Format: `todo DESCRIPTION`
+
+Example:
+* `todo Eat dinner`
+
+### Add a deadline task `deadline`
+Adds a deadline task with end date constraints, as well as a description and completion status.
+
+Format: `deadline DESCRIPTION /by ENDDATE`​
+
+Example:
+* `deadline Complete CS2113 assignment /by 4 March`
+
+### Add an event task `event`
+Adds an event task with start and end date constraints, as well as a description and completion status.
+
+Format: `event DESCRIPTION /from STARTDATE /to ENDDATE`
+
+Example:
+* `event CS2113 exam /from 5 May 4pm /to 5 May 5pm`
+  
+### List all tasks `list`
+Lists all tasks.
+
+Format: `list`
+
+* Each line contains the index, the task type, whether the task is completed (with `X` indicating completed), the task description, and any other information related to the task.
+
+Example:
+* `list` Returns
 ```
-expected output
+____________________________________________________________
+Here are the tasks:
+1. [T][ ] Eat dinner
+2. [D][ ] Complete CS2113 assignment (by: 4 March)
+3. [E][ ] CS2113 exam (from: 5 May 4pm, to: 5 May 5pm)
+____________________________________________________________
 ```
 
-## Feature ABC
+### Find task by description `find`
+Finds tasks whose description contain the given description.
 
-// Feature details
+Format: `find DESCRIPTION`
 
+* The filtering is case-insensitive. e.g `alice tan` will match `ALICE TAN`.
+* The filtering supports search terms with spaces e.g. `ice ta` will match `ALICE TAN`.
 
-## Feature XYZ
+Example:
+* `find cs2113 assignment` Returns
+```
+____________________________________________________________
+Here are the matching tasks:
+[D][ ] Complete CS2113 assignment (by: 4 March)
+____________________________________________________________
+```
 
-// Feature details
+### Mark task as completed `mark`
+Set the specified task as completed.
+
+Format: `mark INDEX`
+
+* Set the task with the specified INDEX as completed.
+* The index refers to the index number displayed using the `list` command, which must be a positive integer 1, 2, 3, …​
+
+Example:
+* `mark 1` Marks the first task in the list as completed.
+
+### Set task as not completed `unmark`
+Set the specified task as not completed.
+
+Format: `unmark INDEX`
+
+* Set the task with the specified INDEX as not completed.
+* The index refers to the index number displayed using the `list` command, which must be a positive integer 1, 2, 3, …​
+
+Example:
+* `unmark 1` Marks the first task in the list as uncompleted.
+
+### Remove task `delete`
+Removes the specified task.
+
+Format: `delete INDEX`
+
+* Deletes the task with the specified INDEX.
+* The index refers to the index number displayed using the `list` command, which must be a positive integer 1, 2, 3, …​
+
+Example:
+* `delete 1` Removes the first task in the list.
+
+### Remove save file from disk `annihilate`
+Removes the save file used to store your tasks from disk.
+
+Format: `annihilate`
+
+### Exiting the application `bye`
+Exits the application, and saves the tasks to disk.
+
+Format: `bye`
