@@ -18,10 +18,10 @@ REM run the program, feed commands from cleanup.txt file
 REM which will remove any persistent file from previous runs
 REM and redirect the output to the ACTUAL-CLEANUP.TXT
 
-java -classpath ..\bin quark/ui/Quark < cleanup.txt > ACTUAL-CLEANUP.TXT
+java -classpath ..\bin quark/Quark < cleanup.txt > ACTUAL-CLEANUP.TXT
 
 REM run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT
-java -classpath ..\bin quark/ui/Quark < input.txt > ACTUAL.TXT
+java -classpath ..\bin quark/Quark < input.txt > ACTUAL.TXT
 
 REM compare the output to the expected output
 FC ACTUAL.TXT EXPECTED.TXT
