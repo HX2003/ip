@@ -44,6 +44,8 @@ Lists all tasks.
 
 Format: `list`
 
+* Each line contains the index, the task type, whether the task is completed (with `X` indicating completed), the task description, and any other information related to the task.
+
 Example:
 * `list` Returns
 ```
@@ -111,6 +113,6 @@ Removes the save file used to store your tasks from disk.
 Format: `annihilate`
 
 ### Exiting the application `bye`
-Exits the application.
+Exits the application, and saves the tasks to disk.
 
 Format: `bye`
